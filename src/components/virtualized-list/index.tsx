@@ -1,66 +1,83 @@
-import { useEffect, useState, useRef, Fragment } from 'react'
+import { useEffect, useState } from 'react'
 import { getData } from '../../services/coingecko'
-import classes from '../table-heathers/styles.module.scss'
+import classes from './styles.module.scss'
+import classesList from '../table-header/styles.module.scss'
 import LoadingComponent from '../loading-component'
-import TableHeathers from '../table-heathers/table-heathers'
-import TableRows from '../table-rows/table-rows'
-import useIntersectionObserver from '../utils/useIntersectionObserver'
+import TableHeader from '../table-header'
+import TableHeaderFix from '../table-header-fix'
+import TableRow from '../table-row/table-row'
+import FetchNextPageTrigger from '../fetch-next-page-trigger'
+import BackToTopIcon from '../back-to-top-icon'
+import { TitleDescription } from '../title-description'
 import { ICoinTickers } from '../interfaces/coingecko'
+import { ErrorModalComponent } from '../error-modal'
 
 export const VirtualizedList = () => {
   const [data, setData] = useState<ICoinTickers[]>([])
   const [page, setPage] = useState(1)
-  const [message, setMessage] = useState('')
-  const [loadMore, setLoadMore] = useState(false)
   const [loading, setLoading] = useState<boolean>()
+  const [firstLoad, setFirstLoad] = useState<boolean>()
+  const [loadNextPage, setLoadNextPage] = useState(false)
+  const [showErrorModal, setShowErrorModal] = useState<JSX.Element>()
+  let fetchAttempts = 0
 
   useEffect(() => {
-    if (loadMore) setPage((prev) => prev + 1)
-  }, [loadMore])
+    if (loadNextPage) setPage((prev) => prev + 1)
+  }, [loadNextPage])
 
   useEffect(() => {
+    if (page === 1) setFirstLoad(true)
     fetchData()
   }, [page])
 
   const fetchData = async () => {
     setLoading(true)
-    const res = await getData(page.toString())
-    console.log('RES: ', res)
-    if (res.status === 200) {
-      setData(data.concat(res.data.tickers))
-    } else {
-      setMessage('API not working at the moment. Please try again later.')
+    try {
+      const res = await getData(page.toString())
+      if (res.status === 200) {
+        setData(data.concat(res.data.tickers))
+        setLoading(false)
+        if (page === 1) setFirstLoad(false)
+      }
+    } catch {
+      if (fetchAttempts < 5) {
+        fetchAttempts++
+        setTimeout(() => {
+          fetchData()
+        }, 3000)
+      } else {
+        setShowErrorModal(<ErrorModalComponent />)
+      }
     }
-    setLoading(false)
   }
 
-  const FetchTriggerElement = (props: any) => {
-    const ref = useRef<HTMLDivElement | null>(null)
-    const entry = useIntersectionObserver(ref, {})
-    const isVisible = entry?.isIntersecting
-
-    useEffect(() => {
-      if (isVisible !== undefined) setLoadMore(isVisible)
-    }, [isVisible])
-
+  if (firstLoad)
     return (
-      <div ref={ref}>
-        <TableRows {...props} />
-      </div>
+      <>
+        {showErrorModal}
+        <LoadingComponent />
+      </>
     )
-  }
 
   return (
-    <div>
-      {loading && <LoadingComponent />}
-      <h1 style={{ marginBottom: 30 }}>Virtualized List</h1>
-      <div className={classes.tableGrid}>
-        <TableHeathers />
-        {data.map((cur, i) => (
-          <Fragment key={i}>{data.length === i + 10 ? <FetchTriggerElement {...cur} /> : <TableRows {...cur} />}</Fragment>
-        ))}
+    <div className={classes.root}>
+      {showErrorModal}
+      <div className={classes.contentWrapper}>
+        {loading && <LoadingComponent />}
+        <TitleDescription />
+        <TableHeaderFix />
+
+        <div className={classesList.tableGrid}>
+          <TableHeader />
+          {data.map((cur, i) => (
+            <TableRow key={i} {...cur} index={i} />
+          ))}
+          <FetchNextPageTrigger setLoadNextPage={setLoadNextPage} />
+          <BackToTopIcon />
+        </div>
       </div>
     </div>
   )
 }
+
 export default VirtualizedList

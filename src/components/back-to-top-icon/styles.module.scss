@@ -1,0 +1,33 @@
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+.root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 50px;
+  background-color: white;
+  border-radius: 50%;
+  position: fixed;
+  bottom: 25px;
+  right: 30px;
+  opacity: 0;
+  cursor: pointer;
+  transition: 0.2s ease;
+  pointer-events: none;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+.arrowUp {
+  font-size: 40px;
+  transform: translateY(-2px);
+}
+.showIcon {
+  @include fadeInAnimation06();
+  pointer-events: auto;
+}
+.hideIcon {
+  @include fadeOutAnimation06();
+}

@@ -1,0 +1,50 @@
+@mixin fadeInAnimationMain() {
+  animation: 0.4s ease-in-out;
+  animation-name: fadeInAnimationMain;
+}
+@keyframes fadeInAnimationMain {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@mixin fadeInAnimationSecond() {
+  animation: 1.2s ease-in-out;
+  animation-name: fadeInAnimationSecond;
+}
+@keyframes fadeInAnimationSecond {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@mixin fadeInAnimation06() {
+  opacity: 0.6;
+  animation: 0.4s ease-in-out;
+  animation-name: fadeInAnimation06;
+}
+@keyframes fadeInAnimation06 {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+@mixin fadeOutAnimation06() {
+  animation: 0.4s ease-in-out;
+  animation-name: fadeOutAnimation06;
+}
+@keyframes fadeOutAnimation06 {
+  0% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}

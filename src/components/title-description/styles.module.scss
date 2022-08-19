@@ -1,0 +1,16 @@
+@import '../../styles/variables.scss';
+
+.pageTitle {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 36px;
+  font-weight: 700;
+  color: $colorPrimary;
+}
+.pageDescription {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  color: #3e3e3e;
+  font-weight: 500;
+}

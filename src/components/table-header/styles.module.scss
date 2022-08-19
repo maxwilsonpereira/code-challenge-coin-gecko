@@ -1,0 +1,77 @@
+@import '../../styles/variables.scss';
+
+.tableGrid {
+  display: grid;
+  grid-template-columns: 18% 12% 25% 15% 30%;
+  border-radius: 8px 8px 0 0;
+  // background-image: $backgroundImgMain;
+  @media (max-width: 900px) {
+    grid-template-columns: 25% 30% 15% 30%;
+  }
+  @media (max-width: 700px) {
+    grid-template-columns: 30% 30% 40%;
+  }
+}
+.tableHeader:first-child {
+  border-top-left-radius: 8px;
+}
+.tableHeader:nth-child(5) {
+  border-top-right-radius: 8px;
+}
+.tableHeader {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  background-color: $colorPrimary;
+  background-image: none;
+  color: #fff;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+.tableRow {
+  display: contents;
+  cursor: pointer;
+}
+.tableCell {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  padding: 16px 18px;
+  font-weight: 500;
+}
+.tableCellFlex {
+  display: flex;
+  align-items: center;
+}
+.ellipsisText {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-transform: capitalize;
+}
+.image {
+  width: 30px;
+  margin-right: 25px;
+}
+.rowColor1 {
+  background-color: rgba(150, 150, 150, 0.3);
+}
+.rowColor2 {
+  background-color: rgb(150, 150, 150, 0.1);
+}
+.cellOnHover {
+  background-color: rgba(150, 150, 150, 0.8);
+}
+.noPointerEvents {
+  pointer-events: none;
+}
+.hideOnSmallWidth1 {
+  @media (max-width: 900px) {
+    display: none;
+  }
+}
+.hideOnSmallWidth2 {
+  @media (max-width: 700px) {
+    display: none;
+  }
+}

@@ -4,4 +4,5 @@ export interface ICoinTickers {
   volume: string
   target: string
   market: { name: string; logo: string }
+  trade_url: string
 }

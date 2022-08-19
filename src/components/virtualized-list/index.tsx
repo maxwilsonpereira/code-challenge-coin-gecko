@@ -1,24 +1,30 @@
-import { useEffect, useState, useRef, Fragment } from 'react'
+import { useEffect, useState, Fragment } from 'react'
 import { getData } from '../../services/coingecko'
-import classes from '../table-heathers/styles.module.scss'
+import classes from './styles.module.scss'
+import classesList from '../table-header/styles.module.scss'
 import LoadingComponent from '../loading-component'
-import TableHeathers from '../table-heathers/table-heathers'
+import TableHeader from '../table-header'
+import TableHeaderFix from '../table-header-fix'
 import TableRows from '../table-rows/table-rows'
-import useIntersectionObserver from '../utils/useIntersectionObserver'
 import { ICoinTickers } from '../interfaces/coingecko'
+import FetchNextPageTrigger from '../fetch-next-page-trigger'
+import BackToTopIcon from '../back-to-top-icon'
 
 export const VirtualizedList = () => {
   const [data, setData] = useState<ICoinTickers[]>([])
   const [page, setPage] = useState(1)
   const [message, setMessage] = useState('')
-  const [loadMore, setLoadMore] = useState(false)
   const [loading, setLoading] = useState<boolean>()
+  const [firstLoad, setFirstLoad] = useState<boolean>()
+  const [loadNextPage, setLoadNextPage] = useState(false)
 
   useEffect(() => {
-    if (loadMore) setPage((prev) => prev + 1)
-  }, [loadMore])
+    if (loadNextPage) setPage((prev) => prev + 1)
+  }, [loadNextPage])
 
   useEffect(() => {
+    if (page > 1) return
+    if (page === 1) setFirstLoad(true)
     fetchData()
   }, [page])
 
@@ -31,34 +37,29 @@ export const VirtualizedList = () => {
     } else {
       setMessage('API not working at the moment. Please try again later.')
     }
+    if (page === 1) setFirstLoad(false)
     setLoading(false)
   }
 
-  const FetchTriggerElement = (props: any) => {
-    const ref = useRef<HTMLDivElement | null>(null)
-    const entry = useIntersectionObserver(ref, {})
-    const isVisible = entry?.isIntersecting
-
-    useEffect(() => {
-      if (isVisible !== undefined) setLoadMore(isVisible)
-    }, [isVisible])
-
-    return (
-      <div ref={ref}>
-        <TableRows {...props} />
-      </div>
-    )
-  }
+  if (firstLoad) return <LoadingComponent />
 
   return (
-    <div>
-      {loading && <LoadingComponent />}
-      <h1 style={{ marginBottom: 30 }}>Virtualized List</h1>
-      <div className={classes.tableGrid}>
-        <TableHeathers />
-        {data.map((cur, i) => (
-          <Fragment key={i}>{data.length === i + 10 ? <FetchTriggerElement {...cur} /> : <TableRows {...cur} />}</Fragment>
-        ))}
+    <div className={classes.root}>
+      <div className={classes.contentWrapper}>
+        {loading && <LoadingComponent />}
+        <h1 style={{ marginTop: 0, marginBottom: 30 }}>Virtualized List</h1>
+        <TableHeaderFix />
+
+        <div className={classesList.tableGrid}>
+          <TableHeader />
+          {data.map((cur, i) => (
+            <Fragment key={i}>
+              <TableRows {...cur} index={i} />
+            </Fragment>
+          ))}
+          <FetchNextPageTrigger setLoadNextPage={setLoadNextPage} />
+          <BackToTopIcon />
+        </div>
       </div>
     </div>
   )

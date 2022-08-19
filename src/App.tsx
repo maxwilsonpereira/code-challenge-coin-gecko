@@ -1,7 +1,7 @@
-import VirtualizedList from "./components/virtualized-list";
+import VirtualizedList from './components/virtualized-list'
 
 function App() {
-  return <VirtualizedList />;
+  return <VirtualizedList />
 }
 
-export default App;
+export default App

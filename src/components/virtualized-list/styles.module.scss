@@ -1,0 +1,12 @@
+@import '../../styles/variables.scss';
+
+.root {
+  margin: 0;
+  padding: $paddingRoot;
+  background-color: $backgroundColorMain;
+}
+.contentWrapper {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}

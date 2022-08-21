@@ -17,7 +17,7 @@ import IntroPage from '../intro-page'
 import { delayHandler } from '../../utils/delay-handler'
 
 let totalRowsFetched = 0
-let isLocalData = true
+let isLocalData = false
 
 export const VirtualizedList = () => {
   const [data, setData] = useState<ICoinTicker[]>([])

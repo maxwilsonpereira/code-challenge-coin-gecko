@@ -3,9 +3,12 @@
 
 .root {
   margin: 0;
-  padding: $paddingRoot;
+  padding: $paddingRoot/2 $paddingRoot;
   background-color: $backgroundColorMain;
   @include fadeInAnimationMain();
+  @media (max-width: 700px) {
+    padding: $paddingRoot / 2;
+  }
 }
 .contentWrapper {
   width: 100%;

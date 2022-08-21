@@ -1,11 +1,10 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import classes from '../table-header/styles.module.scss'
-import { ICoinTickers } from '../interfaces/coingecko'
+import { ICoinTicker } from '../../interfaces/coingecko'
 import TableCell from './table-cell'
 
-interface ITableRow extends ICoinTickers {
+interface ITableRow extends ICoinTicker {
   index: number
-  ref?: HTMLDivElement
 }
 
 const TableRow = ({ ...props }: ITableRow) => {
@@ -17,34 +16,52 @@ const TableRow = ({ ...props }: ITableRow) => {
     if (newWindow) newWindow.opener = null
   }
 
+  const handleRowClick = () => {
+    if (trade_url) openInNewTab(trade_url)
+  }
+
   return (
     <div
       className={[classes.tableRow, !(trade_url && trade_url.length) && classes.noPointerEvents].join(' ')}
-      onClick={() => openInNewTab(trade_url)}
+      onClick={handleRowClick}
       onMouseOver={() => setOnHover(trade_url && trade_url.length ? true : false)}
       onMouseLeave={() => setOnHover(false)}
     >
       <TableCell
-        text={coin_id}
+        text={coin_id || ''}
         color="rgb(19, 99, 34)"
         onHover={onHover}
         classesAdd={[index % 2 ? classes.rowColor1 : classes.rowColor2]}
       />
       <TableCell
-        text={base}
+        text={base || ''}
         onHover={onHover}
         classesAdd={[classes.hideOnSmallWidth1, index % 2 ? classes.rowColor1 : classes.rowColor2]}
       />
-      <TableCell text={volume} color="rgb(128, 11, 0)" onHover={onHover} classesAdd={[index % 2 ? classes.rowColor1 : classes.rowColor2]} />
       <TableCell
-        text={target}
+        text={volume ? volume.toString() : ''}
+        color="rgb(128, 11, 0)"
+        onHover={onHover}
+        classesAdd={[index % 2 ? classes.rowColor1 : classes.rowColor2]}
+      />
+      <TableCell
+        text={target || ''}
         onHover={onHover}
         classesAdd={[classes.hideOnSmallWidth2, index % 2 ? classes.rowColor1 : classes.rowColor2]}
       />
-      <TableCell onHover={onHover} classesAdd={[classes.tableCellFlex, index % 2 ? classes.rowColor1 : classes.rowColor2]}>
-        <img src={market.logo} alt={`${market.name}-image`} className={classes.image} />
+      <TableCell
+        onHover={onHover}
+        classesAdd={[classes.tableCellFlex, index % 2 ? classes.rowColor1 : classes.rowColor2]}
+      >
+        <img
+          src={
+            market.logo ? market.logo : 'https://assets.coingecko.com/markets/images/267/small/Coinsbit.png?1605153697'
+          }
+          alt={`${market.name}-image`}
+          className={classes.marketImage}
+        />
         <div className={classes.ellipsisText} style={{ color: 'rgb(128, 11, 0)' }}>
-          {market.name}
+          <span className={classes.marketName}>{market.name}</span>
         </div>
       </TableCell>
     </div>

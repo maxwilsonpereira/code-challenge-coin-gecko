@@ -1,0 +1,36 @@
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+.root {
+  background-image: url('https://content.app-sources.com/s/136720354663322521/uploads/Images/background3-5113520.png');
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+  overflow-x: hidden;
+  position: relative;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  @include fadeInAnimationMain();
+}
+.content {
+  overflow: auto;
+  padding: 40px;
+}
+.title {
+  font-size: 2.2em;
+  color: $colorPrimary;
+  margin-bottom: 80px;
+}
+.description {
+  font-size: 1.5em;
+}
+.introImage {
+  width: 80%;
+  max-width: 600px;
+  margin: 0 auto;
+  @media (max-height: 800px) {
+    width: 60%;
+  }
+}

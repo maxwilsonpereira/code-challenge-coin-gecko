@@ -1,9 +1,11 @@
+@import '../../styles/variables.scss';
 @import '../../styles/mixins.scss';
 
 .root {
   position: fixed;
   display: flex;
   align-items: center;
+  z-index: 2;
   top: 0;
   left: 0;
   width: 100vw;
@@ -24,4 +26,27 @@
     padding: 30px;
     font-size: 25px;
   }
+}
+.content {
+  margin: 0 auto;
+  max-width: 500px;
+}
+.timer {
+  width: 40px;
+  padding: 3px 5px;
+  font-size: 20px;
+  border-radius: 8px;
+  margin-right: 60px;
+  color: #fff;
+  background-color: $colorPrimary;
+}
+.buttonBasic {
+  @include buttonBasic();
+  width: 160px;
+}
+.btnRed {
+  @include btnRed();
+}
+.buttonDisabled {
+  @include buttonDisabled();
 }

@@ -1,7 +1,6 @@
 @import '../../styles/variables.scss';
 
 .pageTitle {
-  margin-top: 0;
   margin-bottom: 0;
   font-size: 36px;
   font-weight: 700;
@@ -9,8 +8,17 @@
 }
 .pageDescription {
   margin-top: 10px;
-  margin-bottom: 20px;
+  padding: 0;
   font-size: 18px;
   color: #3e3e3e;
   font-weight: 500;
+  @media (max-width: 800px) {
+    max-width: 400px;
+  }
+  @media (max-width: 550px) {
+    max-width: 300px;
+  }
+}
+.warning {
+  color: $colorPrimaryRed;
 }

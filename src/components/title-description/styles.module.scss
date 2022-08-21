@@ -5,6 +5,9 @@
   font-size: 36px;
   font-weight: 700;
   color: $colorPrimary;
+  @media (max-width: 800px) {
+    font-size: 25px;
+  }
 }
 .pageDescription {
   margin-top: 10px;
@@ -12,11 +15,9 @@
   font-size: 18px;
   color: #3e3e3e;
   font-weight: 500;
-  @media (max-width: 800px) {
-    max-width: 400px;
-  }
-  @media (max-width: 550px) {
-    max-width: 300px;
+  @media (max-width: 1000px) {
+    font-size: 14px;
+    width: calc(100% - 100px);
   }
 }
 .warning {

@@ -20,14 +20,19 @@
     background-color: $colorPrimaryHover;
   }
   @media (max-width: 1200px) {
-    right: 60px;
+    right: 40px;
+  }
+  @media (max-width: 700px) {
+    right: 20px;
   }
   @media (max-width: 800px) {
     width: 50px;
   }
   @media (max-width: 700px) {
-    right: 20px;
     top: 40px;
+  }
+  @media (max-width: 300px) {
+    display: none;
   }
 }
 .addRowText {
@@ -68,19 +73,22 @@
     background-color: $colorPrimaryRedHover;
   }
   @media (max-width: 1200px) {
-    right: 160px;
+    right: 140px;
   }
   @media (max-width: 800px) {
     width: 50px;
-    right: 140px;
+    right: 120px;
   }
   @media (max-width: 700px) {
-    right: 130px;
+    right: 100px;
     top: 40px;
   }
   @media (max-width: 520px) {
     right: 20px;
     top: 75px;
+  }
+  @media (max-width: 300px) {
+    display: none;
   }
 }
 .buttonDisabled {

@@ -13,6 +13,7 @@
 @mixin fadeOutAnimationMain() {
   animation: 0.4s ease-in-out;
   animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
   animation-name: fadeOutAnimationMain;
 }
 @keyframes fadeOutAnimationMain {

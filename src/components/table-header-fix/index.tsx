@@ -6,7 +6,7 @@ import classesHeaderFix from './styles.module.scss'
 export const TableHeaderFix = () => {
   const [showHide, setShowHide] = useState(false)
   useEffect(() => {
-    onScrollTrigger(800, setShowHide)
+    onScrollTrigger(400, setShowHide)
   }, [])
 
   return (
@@ -19,7 +19,6 @@ export const TableHeaderFix = () => {
           classes.tableGrid,
           classesHeaderFix.tableHeaderFix,
           showHide && classesHeaderFix.showHeaderFix,
-          !showHide && classesHeaderFix.hideHeaderFix,
         ].join(' ')}
       >
         <div className={[classes.tableCell, classes.tableHeader].join(' ')}>Coin ID</div>

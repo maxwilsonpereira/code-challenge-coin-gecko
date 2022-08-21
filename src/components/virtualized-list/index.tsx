@@ -6,7 +6,7 @@ import LoadingComponent from '../loading-component'
 import TableHeader from '../table-header'
 import TableHeaderFix from '../table-header-fix'
 import TableRow from '../table-row/table-row'
-import FetchNextPageTrigger from '../fetch-next-page-trigger'
+import OnScrollTrigger from '../on-scroll-trigger/on-scroll-trigger'
 import BackToTopIcon from '../back-to-top-icon'
 import ErrorModalComponent from '../error-modal'
 import { TitleDescription } from '../title-description'
@@ -17,7 +17,7 @@ import IntroPage from '../intro-page'
 import { delayHandler } from '../../utils/delay-handler'
 
 let totalRowsFetched = 0
-let isLocalData = true
+let isLocalData = false
 
 export const VirtualizedList = () => {
   const [data, setData] = useState<ICoinTicker[]>([])
@@ -27,6 +27,7 @@ export const VirtualizedList = () => {
   const [firstLoad, setFirstLoad] = useState<boolean>(true)
   const [loadNextPage, setLoadNextPage] = useState(false)
   const [showErrorModal, setShowErrorModal] = useState<JSX.Element>()
+  const [hideTableHeaderFix, setHideTableHeaderFix] = useState(true)
   let fetchAttempts = 0
 
   useEffect(() => {
@@ -126,16 +127,17 @@ export const VirtualizedList = () => {
             setData={setData}
           />
         )}
-        <TableHeaderFix />
 
+        <OnScrollTrigger positionY={-43} element="div" setStateHandler={setHideTableHeaderFix} />
         <div className={classesList.tableGrid}>
+          <>{!hideTableHeaderFix && <TableHeaderFix />}</>
           <TableHeader />
           {data.map((cur, i) => (
             <TableRow key={i} {...cur} index={i} />
           ))}
           <BackToTopIcon />
-          <FetchNextPageTrigger positionY={-3000} setLoadNextPage={setLoadNextPage} />
-          <FetchNextPageTrigger positionY={0} setLoadNextPage={setLoadNextPage} />
+          <OnScrollTrigger positionY={-3000} setStateHandler={setLoadNextPage} />
+          <OnScrollTrigger positionY={0} setStateHandler={setLoadNextPage} />
         </div>
       </div>
     </div>

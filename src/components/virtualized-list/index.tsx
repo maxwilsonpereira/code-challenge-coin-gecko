@@ -17,7 +17,7 @@ import IntroPage from '../intro-page'
 import { delayHandler } from '../../utils/delay-handler'
 
 let totalRowsFetched = 0
-let isLocalData = false
+let isLocalData = true
 
 export const VirtualizedList = () => {
   const [data, setData] = useState<ICoinTicker[]>([])
@@ -128,7 +128,7 @@ export const VirtualizedList = () => {
           />
         )}
 
-        <OnScrollTrigger positionY={-43} element="div" setStateHandler={setHideTableHeaderFix} />
+        <OnScrollTrigger positionY={-36} element="div" setStateHandler={setHideTableHeaderFix} />
         <div className={classesList.tableGrid}>
           <>{!hideTableHeaderFix && <TableHeaderFix />}</>
           <TableHeader />

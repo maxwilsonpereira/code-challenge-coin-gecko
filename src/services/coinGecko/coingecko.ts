@@ -20,7 +20,7 @@ export async function getData(page: string, coinId: string) {
 }
 
 export async function getDataLocal(page: string, coinId: string) {
-  await delayHandler(parseInt(page) === 1 ? 3000 : 500)
+  // await delayHandler(parseInt(page) === 1 ? 3000 : 500)
   if (coinId === 'bitcoin') return mockResponseBitcoin
   else return mockResponseEthereum
 }

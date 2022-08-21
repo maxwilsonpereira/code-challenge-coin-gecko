@@ -1,10 +1,23 @@
 @import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
 
 .loadingRoot {
   display: inline-block;
   position: fixed;
-  left: 50px;
-  bottom: 120px;
+  left: 30px;
+  bottom: 150px;
+  @media (min-width: 1000px) {
+    left: calc(50% - 520px);
+  }
+  @media (max-width: 1200px) {
+    left: 60px;
+  }
+  @media (max-width: 700px) {
+    left: 40px;
+  }
+}
+.fadeIn {
+  @include fadeInAnimationMain();
 }
 .loadingRoot div {
   transform-origin: 40px 40px;

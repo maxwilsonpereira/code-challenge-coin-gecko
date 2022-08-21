@@ -1,7 +1,13 @@
 import { useEffect, useRef } from 'react'
-import useIntersectionObserver from '../utils/useIntersectionObserver'
+import useIntersectionObserver from '../../utils/use-intersection-observer'
 
-const FetchNextPageTrigger = ({ setLoadNextPage }: { setLoadNextPage: React.Dispatch<React.SetStateAction<boolean>> }) => {
+const FetchNextPageTrigger = ({
+  positionY,
+  setLoadNextPage,
+}: {
+  positionY: number
+  setLoadNextPage: React.Dispatch<React.SetStateAction<boolean>>
+}) => {
   const ref = useRef<HTMLDivElement | null>(null)
   const entry = useIntersectionObserver(ref, {})
   const isVisible = entry?.isIntersecting
@@ -10,7 +16,7 @@ const FetchNextPageTrigger = ({ setLoadNextPage }: { setLoadNextPage: React.Disp
     if (isVisible !== undefined) setLoadNextPage(isVisible)
   }, [isVisible])
 
-  return <span style={{ transform: 'translateY(-1500px)' }} ref={ref} />
+  return <span style={{ transform: `translateY(${positionY}px)` }} ref={ref} />
 }
 
 export default FetchNextPageTrigger

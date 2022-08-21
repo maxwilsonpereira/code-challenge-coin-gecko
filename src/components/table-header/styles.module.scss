@@ -18,21 +18,12 @@
 .tableHeader:nth-child(5) {
   border-top-right-radius: 8px;
 }
-.tableHeader {
-  display: flex;
-  align-items: center;
-  height: 40px;
-  background-color: $colorPrimary;
-  background-image: none;
-  color: #fff;
-  font-weight: 500;
-  text-transform: uppercase;
-}
 .tableRow {
   display: contents;
   cursor: pointer;
 }
 .tableCell {
+  height: 30px;
   display: flex;
   align-items: center;
   text-align: left;
@@ -43,15 +34,34 @@
   display: flex;
   align-items: center;
 }
+.tableHeader {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  background-color: $colorPrimary;
+  background-image: none;
+  color: #fff;
+  font-weight: 500;
+  font-size: 16px;
+  text-transform: uppercase;
+  @media (max-width: 500px) {
+    font-size: 14px;
+  }
+}
 .ellipsisText {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
   text-transform: capitalize;
 }
-.image {
+.marketImage {
   width: 30px;
   margin-right: 25px;
+}
+.marketName {
+  @media (max-width: 450px) {
+    display: none;
+  }
 }
 .rowColor1 {
   background-color: rgba(150, 150, 150, 0.3);

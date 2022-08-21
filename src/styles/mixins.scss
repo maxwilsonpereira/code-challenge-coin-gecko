@@ -10,6 +10,20 @@
     opacity: 1;
   }
 }
+@mixin fadeOutAnimationMain() {
+  animation: 0.4s ease-in-out;
+  animation-fill-mode: forwards;
+  animation-name: fadeOutAnimationMain;
+}
+@keyframes fadeOutAnimationMain {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}
 @mixin fadeInAnimationSecond() {
   animation: 1.2s ease-in-out;
   animation-name: fadeInAnimationSecond;
@@ -47,4 +61,33 @@
     opacity: 0;
     display: none;
   }
+}
+@mixin buttonBasic() {
+  float: right;
+  width: 120px;
+  margin-left: auto;
+  padding: 6px 12px;
+  font-size: 15px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  outline: 0;
+  border: none;
+  transition: 0.2s;
+  background-color: transparent;
+  border: 2px solid $colorPrimary;
+  color: $colorPrimary;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 5px 12px 16px -17px rgba(0, 0, 0, 0.72);
+    -webkit-box-shadow: 5px 12px 16px -17px rgba(0, 0, 0, 0.72);
+    -moz-box-shadow: 5px 12px 16px -17px rgba(0, 0, 0, 0.72);
+  }
+}
+@mixin btnRed() {
+  border: 2px solid $colorPrimaryRed;
+  color: $colorPrimaryRed;
+}
+@mixin buttonDisabled() {
+  pointer-events: none;
+  opacity: 0.4;
 }

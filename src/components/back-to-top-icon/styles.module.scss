@@ -11,13 +11,16 @@
   border-radius: 50%;
   position: fixed;
   bottom: 25px;
-  right: 30px;
+  right: calc(50% - 520px);
   opacity: 0;
   cursor: pointer;
   transition: 0.2s ease;
   pointer-events: none;
   &:hover {
     opacity: 0.8;
+  }
+  @media (max-width: 1200px) {
+    right: 60px;
   }
 }
 .arrowUp {

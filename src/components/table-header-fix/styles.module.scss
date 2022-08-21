@@ -1,21 +1,33 @@
 @import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
 
-.tableHeaderFixRoot {
+.tableHeaderFixBackground {
   display: none;
   position: fixed;
   top: 0px;
   height: 60px;
   background-color: $backgroundColorMain;
   width: calc(100% - $paddingRoot * 2);
+  @include fadeInAnimationMain();
+  @media (max-width: 700px) {
+    width: calc(100% - $paddingRoot);
+  }
 }
 .tableHeaderFix {
-  display: none;
   background-image: none;
   position: fixed;
   top: 30px;
   width: calc(100% - $paddingRoot * 2);
   max-width: 1100px;
+  @include fadeInAnimationMain();
+  @media (max-width: 700px) {
+    width: calc(100% - $paddingRoot);
+  }
 }
 .showHeaderFix {
   display: grid;
+}
+.hideHeaderFix {
+  display: grid;
+  @include fadeOutAnimationMain();
 }

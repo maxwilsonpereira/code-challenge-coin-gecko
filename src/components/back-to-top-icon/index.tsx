@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { onScrollTrigger } from '../utils/onScrollTrigger'
+import { onScrollTrigger } from '../../utils/on-scroll-trigger'
 import classes from './styles.module.scss'
 
 export const BackToTopIcon = () => {

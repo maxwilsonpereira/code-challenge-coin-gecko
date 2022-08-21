@@ -26,16 +26,22 @@
     width: 50px;
   }
   @media (max-width: 700px) {
-    right: 50px;
+    right: 20px;
     top: 40px;
   }
+}
+.addRowText {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
 }
 .buttonDownLeft {
   top: unset;
   right: unset;
   left: 30px;
-
   bottom: 20px;
+  font-size: 286px;
+  padding: 10px 20px;
   @media (min-width: 1000px) {
     left: calc(50% - 520px);
   }
@@ -46,10 +52,8 @@
     left: 40px;
   }
 }
-.addRow {
-  margin: 0;
-  font-size: 12px;
-  font-weight: 500;
+.buttonDownLeftP {
+  font-size: 18px;
 }
 .hideRow {
   @media (max-width: 800px) {
@@ -75,7 +79,7 @@
     top: 40px;
   }
   @media (max-width: 520px) {
-    right: 50px;
+    right: 20px;
     top: 75px;
   }
 }

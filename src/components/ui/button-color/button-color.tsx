@@ -48,12 +48,12 @@ export const ButtonColor = ({
         onClick={onClickHandler}
         className={[
           classes.root,
-          buttonAdd && classes.buttonDownLeft,
           type === 'delete' && classes.deleteBtn,
+          buttonAdd && classes.buttonDownLeft,
           type === 'add' && localDataCount > 29 && classes.buttonDisabled,
         ].join(' ')}
       >
-        <p className={classes.addRow}>
+        <p className={[classes.addRowText, buttonAdd && classes.buttonDownLeftP].join(' ')}>
           {title.split(' ')[0]} <span className={classes.hideRow}>{title.split(' ')[1]}</span>
         </p>
       </div>

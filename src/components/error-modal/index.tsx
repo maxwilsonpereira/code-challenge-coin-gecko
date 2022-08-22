@@ -1,12 +1,17 @@
 import { useEffect, useState } from 'react'
+import { getDataLocal } from '../../services/coinGecko/coingecko'
 import classes from './styles.module.scss'
 
 export const ErrorModalComponent = ({
   fetchData,
   setShowErrorModal,
+  setUsingLocalData,
+  setLoading,
 }: {
   fetchData: () => void
   setShowErrorModal: React.Dispatch<React.SetStateAction<JSX.Element | undefined>>
+  setUsingLocalData: React.Dispatch<React.SetStateAction<boolean>>
+  setLoading: React.Dispatch<React.SetStateAction<boolean | undefined>>
 }) => {
   const [timer, setTimer] = useState(30)
 
@@ -26,6 +31,17 @@ export const ErrorModalComponent = ({
     }, 1000)
   }
 
+  const fetchLocalDataHandler = () => {
+    getDataLocal('1', 'bitcoin')
+    setUsingLocalData(true)
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    })
+    setLoading(false)
+    setShowErrorModal(undefined)
+  }
+
   return (
     <div className={classes.root}>
       <div className={classes.container}>
@@ -33,20 +49,32 @@ export const ErrorModalComponent = ({
           <p>
             API not working at the moment.
             <br />
-            Please wait 30 seconds and try again.
+            Please wait 30 seconds and try again or use Local Data.
           </p>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <div className={classes.timer}>{timer}</div>
-            <div>
-              <button
-                onClick={() => {
-                  fetchData()
-                  setShowErrorModal(undefined)
-                }}
-                className={[classes.buttonBasic, timer > 0 && classes.buttonDisabled].join(' ')}
-              >
-                TRY AGAIN
-              </button>
+            <div className={classes.btnsGrid}>
+              <div>
+                <button
+                  onClick={() => {
+                    fetchData()
+                    setShowErrorModal(undefined)
+                  }}
+                  className={[
+                    classes.buttonBasic,
+                    classes.btnRed,
+                    classes.btnTryAgain,
+                    timer > 0 && classes.buttonDisabled,
+                  ].join(' ')}
+                >
+                  TRY AGAIN
+                </button>
+              </div>
+              <div>
+                <button onClick={fetchLocalDataHandler} className={classes.buttonBasic} style={{ marginLeft: 20 }}>
+                  LOCAL DATA
+                </button>
+              </div>
             </div>
           </div>
         </div>

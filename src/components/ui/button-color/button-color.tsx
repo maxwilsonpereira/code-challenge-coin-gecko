@@ -9,6 +9,7 @@ interface IButtonColorProps {
   type: string
   localDataCount: number
   setLocalDataCount: React.Dispatch<React.SetStateAction<number>>
+  loading?: boolean
   setData: React.Dispatch<React.SetStateAction<ICoinTicker[]>>
 }
 export const ButtonColor = (props: IButtonColorProps) => {
@@ -16,7 +17,7 @@ export const ButtonColor = (props: IButtonColorProps) => {
   const [buttonAdd, changeButtonAdd] = useState(false)
   const [hideButtonDelete, setHideButtonDelete] = useState(false)
   const [component, setComponent] = useState<JSX.Element>()
-  const { title, type, localDataCount, setLocalDataCount, setData } = props
+  const { title, type, localDataCount, setLocalDataCount, loading, setData } = props
 
   useEffect(() => {
     if (type === 'add') {
@@ -48,6 +49,7 @@ export const ButtonColor = (props: IButtonColorProps) => {
           type === 'delete' && classes.deleteBtn,
           buttonAdd && classes.buttonDownLeft,
           type === 'add' && localDataCount > 29 && classes.buttonDisabled,
+          loading && classes.buttonDisabled,
         ].join(' ')}
       >
         <p className={[classes.addRowText, buttonAdd && classes.buttonDownLeftP].join(' ')}>

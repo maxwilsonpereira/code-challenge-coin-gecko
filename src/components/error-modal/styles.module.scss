@@ -26,6 +26,10 @@
     padding: 30px;
     font-size: 25px;
   }
+  @media (max-width: 600px) {
+    padding: 30px;
+    font-size: 20px;
+  }
 }
 .content {
   margin: 0 auto;
@@ -39,10 +43,28 @@
   margin-right: 60px;
   color: #fff;
   background-color: $colorPrimary;
+  @media (max-width: 600px) {
+    font-size: 12px;
+  }
+}
+.btnsGrid {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  @media (max-width: 600px) {
+    grid-template-columns: 100%;
+  }
+}
+.btnTryAgain {
+  @media (max-width: 600px) {
+    margin-bottom: 10px;
+  }
 }
 .buttonBasic {
   @include buttonBasic();
-  width: 160px;
+  width: 120px;
+  @media (max-width: 600px) {
+    font-size: 12px;
+  }
 }
 .btnRed {
   @include btnRed();

@@ -16,18 +16,18 @@ import ButtonColor from '../ui/button-color/button-color'
 import IntroPage from '../intro-page'
 import { delayHandler } from '../../utils/delay-handler'
 
-let usingLocalData = false
 let totalRowsFetched = 0
 
 export const VirtualizedList = () => {
   const [data, setData] = useState<ICoinTicker[]>([])
   const [localDataCount, setLocalDataCount] = useState(0)
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(0)
   const [loading, setLoading] = useState<boolean>()
   const [firstLoad, setFirstLoad] = useState<boolean>(true)
   const [loadNextPage, setLoadNextPage] = useState(false)
   const [showErrorModal, setShowErrorModal] = useState<JSX.Element>()
   const [hideTableHeaderFix, setHideTableHeaderFix] = useState(true)
+  const [usingLocalData, setUsingLocalData] = useState<boolean>(false)
   let fetchRetries = 0
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export const VirtualizedList = () => {
   }, [loadNextPage])
 
   useEffect(() => {
-    if (page === 1) {
+    if (page === 0) {
       const localData = JSON.parse(localStorage.getItem('localStorageRows')!)
       if (localData) {
         let localStorageIsCorrupted = false
@@ -53,6 +53,8 @@ export const VirtualizedList = () => {
   }, [page])
 
   const fetchData = async () => {
+    console.log('fetchRetries: ', fetchRetries)
+
     if (showErrorModal != undefined) return
     setLoading(true)
     let fetchAgainOnError = false
@@ -61,13 +63,15 @@ export const VirtualizedList = () => {
       let res: any
       if (usingLocalData) res = await getDataLocal(page.toString(), fetchRetries % 2 == 0 ? 'ethereum' : 'bitcoin')
       else res = await getData(page.toString(), fetchRetries % 2 == 0 ? 'ethereum' : 'bitcoin')
+      console.log('Total rows res: ', res)
+
       if (res.status === 200) {
         setLoading(false)
         if (res.data.tickers.length === 0) {
           fetchAgainOnError = true
-          if (fetchRetries < 3) {
+          if (fetchRetries < 4) {
             fetchRetries++
-            if (page > 1) await delayHandler(fetchRetries * 3000)
+            if (page > 0) await delayHandler(fetchRetries * 3000)
             fetchData()
           } else throw 'API error. Corrupted response.'
         }
@@ -85,16 +89,24 @@ export const VirtualizedList = () => {
           setData(dataUpdated)
           window.scrollBy(0, -6200)
         }
-        if (page === 1) setFirstLoad(false)
+        if (page === 0) setFirstLoad(false)
       }
     } catch {
-      if (firstLoad && fetchRetries > 0) usingLocalData = true
-      if (fetchRetries < 3) {
+      if (firstLoad && fetchRetries > 0) setUsingLocalData(true)
+      if (fetchRetries < 4) {
         fetchRetries++
         if (page > 1) await delayHandler(fetchRetries * 4000)
         fetchData()
       } else {
-        setShowErrorModal(<ErrorModalComponent fetchData={fetchData} setShowErrorModal={setShowErrorModal} />)
+        fetchRetries = 0
+        setShowErrorModal(
+          <ErrorModalComponent
+            fetchData={fetchData}
+            setShowErrorModal={setShowErrorModal}
+            setUsingLocalData={setUsingLocalData}
+            setLoading={setLoading}
+          />
+        )
       }
     }
   }
@@ -119,6 +131,7 @@ export const VirtualizedList = () => {
           type="add"
           setData={setData}
           localDataCount={localDataCount}
+          loading={loading}
           setLocalDataCount={setLocalDataCount}
         />
         {localDataCount > 0 && (
@@ -127,6 +140,7 @@ export const VirtualizedList = () => {
             type="delete"
             localDataCount={localDataCount}
             setLocalDataCount={setLocalDataCount}
+            loading={loading}
             setData={setData}
           />
         )}

@@ -52,7 +52,7 @@ export const ErrorModalComponent = ({
             Please wait 30 seconds and try again or use Local Data.
           </p>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <div className={classes.timer}>{timer}</div>
+            {timer > 0 && <div className={classes.timer}>{timer}</div>}
             <div className={classes.btnsGrid}>
               <div>
                 <button

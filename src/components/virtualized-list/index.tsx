@@ -76,11 +76,13 @@ export const VirtualizedList = () => {
 
         totalRowsFetched = totalRowsFetched + res.data.tickers.length
         console.log('Total rows fetched: ', totalRowsFetched)
-        if (data.length < 350 + localDataCount) setData((prev) => prev.concat(res.data.tickers))
+        if (data.length < 550 + localDataCount) setData((prev) => prev.concat(res.data.tickers))
         else {
-          setData(
-            data.slice(0, localDataCount).concat(data.slice(100 + localDataCount, data.length).concat(res.data.tickers))
-          )
+          const dataUpdated = data
+            .slice(0, localDataCount)
+            .concat(data.slice(100 + localDataCount, data.length).concat(res.data.tickers))
+
+          setData(dataUpdated)
           window.scrollBy(0, -6200)
         }
         if (page === 1) setFirstLoad(false)
@@ -137,7 +139,7 @@ export const VirtualizedList = () => {
             <TableRow key={i} {...cur} index={i} />
           ))}
           <BackToTopIcon />
-          {totalRowsFetched < 350 && <OnScrollTrigger positionY={-3000} setStateHandler={setLoadNextPage} />}
+          {totalRowsFetched < 550 && <OnScrollTrigger positionY={-3000} setStateHandler={setLoadNextPage} />}
 
           <OnScrollTrigger positionY={0} setStateHandler={setLoadNextPage} />
         </div>

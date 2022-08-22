@@ -1,11 +1,13 @@
 import classes from './styles.module.scss'
 
 export const AddRowModalInput = ({
+  coinId,
   value,
   type,
   placeholder,
   stateSetter,
 }: {
+  coinId: string
   value: string
   type?: string
   placeholder: string
@@ -13,6 +15,7 @@ export const AddRowModalInput = ({
 }) => {
   return (
     <input
+      id={coinId}
       className={classes.input}
       type={type || 'text'}
       value={value}

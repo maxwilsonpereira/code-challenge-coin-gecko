@@ -4,23 +4,19 @@ import { onScrollTrigger } from '../../../utils/on-scroll-trigger'
 import AddRowModalComponent from '../../add-row-modal'
 import classes from './styles.module.scss'
 
-export const ButtonColor = ({
-  title,
-  type,
-  localDataCount,
-  setLocalDataCount,
-  setData,
-}: {
+interface IButtonColorProps {
   title: string
   type: string
   localDataCount: number
   setLocalDataCount: React.Dispatch<React.SetStateAction<number>>
   setData: React.Dispatch<React.SetStateAction<ICoinTicker[]>>
-}) => {
+}
+export const ButtonColor = (props: IButtonColorProps) => {
   const [modal, setModal] = useState<JSX.Element>()
   const [buttonAdd, changeButtonAdd] = useState(false)
   const [hideButtonDelete, setHideButtonDelete] = useState(false)
   const [component, setComponent] = useState<JSX.Element>()
+  const { title, type, localDataCount, setLocalDataCount, setData } = props
 
   useEffect(() => {
     if (type === 'add') {
@@ -45,6 +41,7 @@ export const ButtonColor = ({
     <>
       {modal}
       <div
+        id={`button-${type}`}
         onClick={onClickHandler}
         className={[
           classes.root,

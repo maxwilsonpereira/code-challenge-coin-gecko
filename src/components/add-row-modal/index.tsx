@@ -72,23 +72,25 @@ export const AddRowModalComponent = ({
   }
 
   return (
-    <div className={classes.root}>
+    <div id="add-row-modal" className={classes.root}>
       <div className={classes.container}>
         <p className={classes.title}>Add New Coin</p>
         <div className={classes.inputGrid}>
-          <AddRowModalInput value={coinId} placeholder="Coin ID" stateSetter={setCoinId} />
+          <AddRowModalInput coinId="coin-id" value={coinId} placeholder="Coin ID" stateSetter={setCoinId} />
           <AddRowModalInput
+            coinId="coin-volume"
             value={coinVolume}
             type="number"
             placeholder="Volume (number required)"
             stateSetter={setCoinVolume}
           />
-          <AddRowModalInput value={coinTarget} placeholder="Target" stateSetter={setCoinTarget} />
-          <AddRowModalInput value={coinMarket} placeholder="Market" stateSetter={setCoinMarket} />
-          <AddRowModalInput value={coinBase} placeholder="Base" stateSetter={setCoinBase} />
+          <AddRowModalInput coinId="coin-target" value={coinTarget} placeholder="Target" stateSetter={setCoinTarget} />
+          <AddRowModalInput coinId="coin-market" value={coinMarket} placeholder="Market" stateSetter={setCoinMarket} />
+          <AddRowModalInput coinId="coin-base" value={coinBase} placeholder="Base" stateSetter={setCoinBase} />
 
-          <div>
+          <div id="add-modal">
             <button
+              id="button-add"
               onClick={addHowHandler}
               className={[
                 classes.buttonBasic,
@@ -104,6 +106,7 @@ export const AddRowModalComponent = ({
               ADD
             </button>
             <button
+              id="button-cancel"
               onClick={() => setAddRowModal(undefined)}
               className={[classes.buttonBasic, classes.btnRed].join(' ')}
             >

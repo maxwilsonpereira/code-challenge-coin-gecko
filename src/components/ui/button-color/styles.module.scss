@@ -45,8 +45,8 @@
   right: unset;
   left: 30px;
   bottom: 20px;
-  font-size: 286px;
   padding: 10px 20px;
+  white-space: nowrap;
   @media (min-width: 1000px) {
     left: calc(50% - 520px);
   }
@@ -58,7 +58,7 @@
   }
 }
 .buttonDownLeftP {
-  font-size: 18px;
+  font-size: 16px;
 }
 .hideRow {
   @media (max-width: 800px) {

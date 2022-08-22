@@ -16,8 +16,8 @@ import ButtonColor from '../ui/button-color/button-color'
 import IntroPage from '../intro-page'
 import { delayHandler } from '../../utils/delay-handler'
 
+let usingLocalData = false
 let totalRowsFetched = 0
-let isLocalData = false
 
 export const VirtualizedList = () => {
   const [data, setData] = useState<ICoinTicker[]>([])
@@ -59,12 +59,11 @@ export const VirtualizedList = () => {
 
     try {
       let res: any
-      if (isLocalData) res = await getDataLocal(page.toString(), fetchAttempts % 2 == 0 ? 'ethereum' : 'bitcoin')
+      if (usingLocalData) res = await getDataLocal(page.toString(), fetchAttempts % 2 == 0 ? 'ethereum' : 'bitcoin')
       else res = await getData(page.toString(), fetchAttempts % 2 == 0 ? 'ethereum' : 'bitcoin')
       if (res.status === 200) {
         setLoading(false)
         if (res.data.tickers.length === 0) {
-          totalRowsFetched = totalRowsFetched + res.data.tickers.length
           fetchAgainOnError = true
           if (fetchAttempts < 5) {
             fetchAttempts++
@@ -75,6 +74,8 @@ export const VirtualizedList = () => {
 
         if (fetchAgainOnError) return
 
+        totalRowsFetched = totalRowsFetched + res.data.tickers.length
+        console.log('Total rows fetched: ', totalRowsFetched)
         if (data.length < 550 + localDataCount) setData((prev) => prev.concat(res.data.tickers))
         else {
           setData(
@@ -85,7 +86,7 @@ export const VirtualizedList = () => {
         if (page === 1) setFirstLoad(false)
       }
     } catch {
-      if (firstLoad && fetchAttempts > 0) isLocalData = true
+      if (firstLoad && fetchAttempts > 0) usingLocalData = true
       if (fetchAttempts < 5) {
         fetchAttempts++
         if (page > 1) await delayHandler(fetchAttempts * 3000)
@@ -106,11 +107,11 @@ export const VirtualizedList = () => {
     )
 
   return (
-    <div className={classes.root}>
+    <div id="virtualized-list-root" className={classes.root}>
       {showErrorModal}
       <div className={classes.contentWrapper}>
         {loading && <LoadingComponent />}
-        <TitleDescription isLocalData={isLocalData} />
+        <TitleDescription usingLocalData={usingLocalData} />
         <ButtonColor
           title="ADD ROW"
           type="add"
@@ -136,7 +137,8 @@ export const VirtualizedList = () => {
             <TableRow key={i} {...cur} index={i} />
           ))}
           <BackToTopIcon />
-          <OnScrollTrigger positionY={-3000} setStateHandler={setLoadNextPage} />
+          {totalRowsFetched < 550 && <OnScrollTrigger positionY={-3000} setStateHandler={setLoadNextPage} />}
+
           <OnScrollTrigger positionY={0} setStateHandler={setLoadNextPage} />
         </div>
       </div>

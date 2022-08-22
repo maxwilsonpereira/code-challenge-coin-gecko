@@ -22,6 +22,7 @@ const TableRow = ({ ...props }: ITableRow) => {
 
   return (
     <div
+      id={`row-${index}-${coin_id}`}
       className={[classes.tableRow, !(trade_url && trade_url.length) && classes.noPointerEvents].join(' ')}
       onClick={handleRowClick}
       onMouseOver={() => setOnHover(trade_url && trade_url.length ? true : false)}

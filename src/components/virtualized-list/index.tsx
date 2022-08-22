@@ -53,8 +53,6 @@ export const VirtualizedList = () => {
   }, [page])
 
   const fetchData = async () => {
-    console.log('fetchRetries: ', fetchRetries)
-
     if (showErrorModal != undefined) return
     setLoading(true)
     let fetchAgainOnError = false
@@ -63,8 +61,6 @@ export const VirtualizedList = () => {
       let res: any
       if (usingLocalData) res = await getDataLocal(page.toString(), fetchRetries % 2 == 0 ? 'ethereum' : 'bitcoin')
       else res = await getData(page.toString(), fetchRetries % 2 == 0 ? 'ethereum' : 'bitcoin')
-      console.log('Total rows res: ', res)
-
       if (res.status === 200) {
         setLoading(false)
         if (res.data.tickers.length === 0) {
@@ -92,6 +88,7 @@ export const VirtualizedList = () => {
         if (page === 0) setFirstLoad(false)
       }
     } catch {
+      console.log('fetchRetries: ', fetchRetries)
       if (firstLoad && fetchRetries > 0) setUsingLocalData(true)
       if (fetchRetries < 4) {
         fetchRetries++

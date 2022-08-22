@@ -8,15 +8,15 @@ export const ErrorModalComponent = ({
   fetchData: () => void
   setShowErrorModal: React.Dispatch<React.SetStateAction<JSX.Element | undefined>>
 }) => {
-  const [timer, setTimer] = useState(1)
+  const [timer, setTimer] = useState(30)
 
   useEffect(() => {
     timerHandler()
   }, [])
 
   const timerHandler = () => {
-    var timeLeft = 1
-    var downloadTimer = setInterval(function () {
+    let timeLeft = 30
+    const downloadTimer = setInterval(function () {
       if (timeLeft <= 0) {
         clearInterval(downloadTimer)
       } else {

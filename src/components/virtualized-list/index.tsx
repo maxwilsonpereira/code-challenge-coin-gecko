@@ -28,7 +28,7 @@ export const VirtualizedList = () => {
   const [loadNextPage, setLoadNextPage] = useState(false)
   const [showErrorModal, setShowErrorModal] = useState<JSX.Element>()
   const [hideTableHeaderFix, setHideTableHeaderFix] = useState(true)
-  let fetchAttempts = 0
+  let fetchRetries = 0
 
   useEffect(() => {
     if (loadNextPage) setPage((prev) => prev + 1)
@@ -59,15 +59,15 @@ export const VirtualizedList = () => {
 
     try {
       let res: any
-      if (usingLocalData) res = await getDataLocal(page.toString(), fetchAttempts % 2 == 0 ? 'ethereum' : 'bitcoin')
-      else res = await getData(page.toString(), fetchAttempts % 2 == 0 ? 'ethereum' : 'bitcoin')
+      if (usingLocalData) res = await getDataLocal(page.toString(), fetchRetries % 2 == 0 ? 'ethereum' : 'bitcoin')
+      else res = await getData(page.toString(), fetchRetries % 2 == 0 ? 'ethereum' : 'bitcoin')
       if (res.status === 200) {
         setLoading(false)
         if (res.data.tickers.length === 0) {
           fetchAgainOnError = true
-          if (fetchAttempts < 5) {
-            fetchAttempts++
-            if (page > 1) await delayHandler(fetchAttempts * 3000)
+          if (fetchRetries < 3) {
+            fetchRetries++
+            if (page > 1) await delayHandler(fetchRetries * 3000)
             fetchData()
           } else throw 'API error. Corrupted response.'
         }
@@ -88,10 +88,10 @@ export const VirtualizedList = () => {
         if (page === 1) setFirstLoad(false)
       }
     } catch {
-      if (firstLoad && fetchAttempts > 0) usingLocalData = true
-      if (fetchAttempts < 5) {
-        fetchAttempts++
-        if (page > 1) await delayHandler(fetchAttempts * 3000)
+      if (firstLoad && fetchRetries > 0) usingLocalData = true
+      if (fetchRetries < 3) {
+        fetchRetries++
+        if (page > 1) await delayHandler(fetchRetries * 4000)
         fetchData()
       } else {
         setShowErrorModal(<ErrorModalComponent fetchData={fetchData} setShowErrorModal={setShowErrorModal} />)
@@ -139,9 +139,11 @@ export const VirtualizedList = () => {
             <TableRow key={i} {...cur} index={i} />
           ))}
           <BackToTopIcon />
-          {totalRowsFetched < 550 && <OnScrollTrigger positionY={-3000} setStateHandler={setLoadNextPage} />}
+          {!loading && totalRowsFetched < 550 && (
+            <OnScrollTrigger positionY={-3000} setStateHandler={setLoadNextPage} />
+          )}
 
-          <OnScrollTrigger positionY={0} setStateHandler={setLoadNextPage} />
+          {!loading && <OnScrollTrigger positionY={0} setStateHandler={setLoadNextPage} />}
         </div>
       </div>
     </div>

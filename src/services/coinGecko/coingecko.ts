@@ -1,14 +1,9 @@
 import axios from 'axios'
 import { delayHandler } from '../../utils/delay-handler'
 import { isICoinTicker } from '../../utils/interfaces-check'
-import {
-  mockResponseBitcoin,
-  mockResponseEthereum,
-  // emptyResponse
-} from './mockResponse'
+import { mockResponseBitcoin, mockResponseEthereum } from './mockResponse'
 
 const url = 'https://api.coingecko.com/api/v3/coins'
-// exchanges: /exchanges/{id}/tickers
 
 export async function getData(page: string, coinId: string) {
   if (parseInt(page) === 1) await delayHandler(3000)

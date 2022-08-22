@@ -76,7 +76,7 @@ export const VirtualizedList = () => {
 
         totalRowsFetched = totalRowsFetched + res.data.tickers.length
         console.log('Total rows fetched: ', totalRowsFetched)
-        if (data.length < 550 + localDataCount) setData((prev) => prev.concat(res.data.tickers))
+        if (data.length < 350 + localDataCount) setData((prev) => prev.concat(res.data.tickers))
         else {
           setData(
             data.slice(0, localDataCount).concat(data.slice(100 + localDataCount, data.length).concat(res.data.tickers))
@@ -137,7 +137,7 @@ export const VirtualizedList = () => {
             <TableRow key={i} {...cur} index={i} />
           ))}
           <BackToTopIcon />
-          {totalRowsFetched < 550 && <OnScrollTrigger positionY={-3000} setStateHandler={setLoadNextPage} />}
+          {totalRowsFetched < 350 && <OnScrollTrigger positionY={-3000} setStateHandler={setLoadNextPage} />}
 
           <OnScrollTrigger positionY={0} setStateHandler={setLoadNextPage} />
         </div>

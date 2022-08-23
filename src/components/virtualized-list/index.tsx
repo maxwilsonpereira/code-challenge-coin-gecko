@@ -95,7 +95,7 @@ export const VirtualizedList = () => {
             setData={setData}
           />
         )}
-        <OnScrollTrigger positionY={-35} element="div" setHideTableHeaderFix={setHideTableHeaderFix} />
+        <OnScrollTrigger positionY={-30} element="div" setHideTableHeaderFix={setHideTableHeaderFix} />
         <div className={classesList.tableGrid}>
           <>{!hideTableHeaderFix && <TableHeaderFix />}</>
           <TableHeader />

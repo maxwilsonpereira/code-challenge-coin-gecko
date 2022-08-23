@@ -21,11 +21,15 @@ export const TableHeaderFix = () => {
           showHide && classesHeaderFix.showHeaderFix,
         ].join(' ')}
       >
-        <div className={[classes.tableCell, classes.tableHeader].join(' ')}>Coin ID</div>
-        <div className={[classes.tableCell, classes.tableHeader, classes.hideOnSmallWidth1].join(' ')}>Base</div>
-        <div className={[classes.tableCell, classes.tableHeader].join(' ')}>Volume</div>
-        <div className={[classes.tableCell, classes.tableHeader, classes.hideOnSmallWidth2].join(' ')}>Target</div>
-        <div className={[classes.tableCell, classes.tableHeader].join(' ')}>Market</div>
+        <div className={[classes.tableCell, classesHeaderFix.tableCellFix].join(' ')}>Coin ID</div>
+        <div className={[classes.tableCell, classesHeaderFix.tableCellFix, classes.hideOnSmallWidth1].join(' ')}>
+          Base
+        </div>
+        <div className={[classes.tableCell, classesHeaderFix.tableCellFix].join(' ')}>Volume</div>
+        <div className={[classes.tableCell, classesHeaderFix.tableCellFix, classes.hideOnSmallWidth2].join(' ')}>
+          Target
+        </div>
+        <div className={[classes.tableCell, classesHeaderFix.tableCellFix].join(' ')}>Market</div>
       </div>
     </>
   )

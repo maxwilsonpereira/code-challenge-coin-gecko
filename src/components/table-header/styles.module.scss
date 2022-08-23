@@ -12,41 +12,35 @@
     grid-template-columns: 30% 30% 40%;
   }
 }
-.tableHeader:first-child {
-  border-top-left-radius: 8px;
-}
-.tableHeader:nth-child(5) {
-  border-top-right-radius: 8px;
-}
 .tableRow {
   display: contents;
   cursor: pointer;
 }
 .tableCell {
-  height: 30px;
   display: flex;
   align-items: center;
   text-align: left;
-  padding: 16px 18px;
-  font-weight: 500;
-}
-.tableCellFlex {
-  display: flex;
-  align-items: center;
-}
-.tableHeader {
-  display: flex;
-  align-items: center;
   height: 40px;
   background-color: $colorPrimary;
   background-image: none;
   color: #fff;
+  padding: 16px 18px;
   font-weight: 500;
   font-size: 16px;
   text-transform: uppercase;
   @media (max-width: 500px) {
     font-size: 14px;
   }
+}
+.tableCell:first-child {
+  border-top-left-radius: 8px;
+}
+.tableCell:nth-child(5) {
+  border-top-right-radius: 8px;
+}
+.tableCellFlex {
+  display: flex;
+  align-items: center;
 }
 .ellipsisText {
   white-space: nowrap;

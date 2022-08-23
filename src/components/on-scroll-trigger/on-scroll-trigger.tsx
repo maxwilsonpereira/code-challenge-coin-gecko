@@ -10,17 +10,15 @@ const OnScrollTrigger = ({
   positionY: number
   element?: string
   setPage?: React.Dispatch<React.SetStateAction<number>>
-  setHideTableHeaderFix?: React.Dispatch<React.SetStateAction<boolean>>
+  setHideTableHeaderFix?: React.Dispatch<React.SetStateAction<boolean | undefined>>
 }) => {
   const ref = useRef<HTMLDivElement | null>(null)
   const entry = useIntersectionObserver(ref, {})
   const isVisible = entry?.isIntersecting
 
   useEffect(() => {
-    if (isVisible) {
-      if (setPage) setPage((prev) => prev + 1)
-      if (setHideTableHeaderFix && isVisible !== undefined) setHideTableHeaderFix(isVisible)
-    }
+    if (isVisible && setPage) setPage((prev) => prev + 1)
+    if (setHideTableHeaderFix) setHideTableHeaderFix(isVisible)
   }, [isVisible])
 
   if (element && element === 'div') return <div style={{ transform: `translateY(${positionY}px)` }} ref={ref} />

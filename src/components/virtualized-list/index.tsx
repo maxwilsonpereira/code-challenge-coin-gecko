@@ -22,7 +22,7 @@ export const VirtualizedList = () => {
   const [loading, setLoading] = useState<boolean>()
   const [firstLoad, setFirstLoad] = useState<boolean>(true)
   const [showErrorModal, setShowErrorModal] = useState<boolean>(false)
-  const [hideTableHeaderFix, setHideTableHeaderFix] = useState(true)
+  const [hideTableHeaderFix, setHideTableHeaderFix] = useState<boolean>()
   const [usingLocalData, setUsingLocalData] = useState<boolean>(false)
 
   useEffect(() => {
@@ -95,8 +95,7 @@ export const VirtualizedList = () => {
             setData={setData}
           />
         )}
-
-        <OnScrollTrigger positionY={-36} element="div" setHideTableHeaderFix={setHideTableHeaderFix} />
+        <OnScrollTrigger positionY={-35} element="div" setHideTableHeaderFix={setHideTableHeaderFix} />
         <div className={classesList.tableGrid}>
           <>{!hideTableHeaderFix && <TableHeaderFix />}</>
           <TableHeader />

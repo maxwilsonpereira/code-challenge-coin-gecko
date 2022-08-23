@@ -3,7 +3,6 @@ import classes from './styles.module.scss'
 import classesList from '../table-header/styles.module.scss'
 import LoadingComponent from '../loading-component'
 import TableHeader from '../table-header'
-import TableHeaderFix from '../table-header-fix'
 import TableRow from '../table-row/table-row'
 import OnScrollTrigger from '../on-scroll-trigger/on-scroll-trigger'
 import BackToTopIcon from '../back-to-top-icon'
@@ -22,11 +21,13 @@ export const VirtualizedList = () => {
   const [loading, setLoading] = useState<boolean>()
   const [firstLoad, setFirstLoad] = useState<boolean>(true)
   const [showErrorModal, setShowErrorModal] = useState<boolean>(false)
-  const [hideTableHeaderFix, setHideTableHeaderFix] = useState<boolean>()
   const [usingLocalData, setUsingLocalData] = useState<boolean>(false)
 
   useEffect(() => {
-    if (page === 0) localStorageHandler(setLocalDataCount, setData)
+    localStorageHandler(setLocalDataCount, setData)
+  }, [])
+
+  useEffect(() => {
     fetchData()
   }, [page])
 
@@ -95,9 +96,7 @@ export const VirtualizedList = () => {
             setData={setData}
           />
         )}
-        <OnScrollTrigger positionY={-30} element="div" setHideTableHeaderFix={setHideTableHeaderFix} />
         <div className={classesList.tableGrid}>
-          <>{!hideTableHeaderFix && <TableHeaderFix />}</>
           <TableHeader />
           {data.map((cur, i) => (
             <TableRow key={i} {...cur} index={i} />

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import classes from '../table-header/styles.module.scss'
 import { ICoinTicker } from '../../interfaces/coingecko'
 import TableCell from './table-cell'

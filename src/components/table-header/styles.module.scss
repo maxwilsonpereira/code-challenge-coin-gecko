@@ -16,6 +16,12 @@
   display: contents;
   cursor: pointer;
 }
+.tableHeader:first-child {
+  border-top-left-radius: 8px;
+}
+.tableHeader:nth-child(5) {
+  border-top-right-radius: 8px;
+}
 .tableCell {
   display: flex;
   align-items: center;
@@ -31,12 +37,6 @@
   @media (max-width: 500px) {
     font-size: 14px;
   }
-}
-.tableCell:first-child {
-  border-top-left-radius: 8px;
-}
-.tableCell:nth-child(5) {
-  border-top-right-radius: 8px;
 }
 .tableCellFlex {
   display: flex;

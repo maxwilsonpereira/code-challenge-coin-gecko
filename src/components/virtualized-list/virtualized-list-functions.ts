@@ -7,16 +7,19 @@ export function localStorageHandler(
   setLocalDataCount: React.Dispatch<React.SetStateAction<number>>,
   setData: React.Dispatch<React.SetStateAction<ICoinTicker[]>>
 ) {
-  const localData = JSON.parse(localStorage.getItem('localStorageRows')!)
-  if (localData) {
-    let localStorageIsCorrupted = false
-    localData.forEach((cur: ICoinTicker) => {
-      if (localStorageIsCorrupted) return
-      if (!isICoinTicker(cur)) localStorageIsCorrupted = true
-    })
-    if (!localStorageIsCorrupted) {
-      setLocalDataCount(localData.length)
-      setData(localData)
+  const local = localStorage.getItem('localStorageRows')
+  if (local) {
+    const localData = JSON.parse(local)
+    if (localData) {
+      let localStorageIsCorrupted = false
+      localData.forEach((cur: ICoinTicker) => {
+        if (localStorageIsCorrupted) return
+        if (!isICoinTicker(cur)) localStorageIsCorrupted = true
+      })
+      if (!localStorageIsCorrupted) {
+        setLocalDataCount(localData.length)
+        setData(localData)
+      }
     }
   }
 }
@@ -87,7 +90,7 @@ export async function fetchDataHandler(
           .slice(0, localDataCount)
           .concat(data.slice(100 + localDataCount, data.length).concat(res.data.tickers))
         setData(dataUpdated)
-        window.scrollBy(0, -6200)
+        window.scrollBy(0, -7200)
         setLoading(false)
       }
       if (page === 0) setFirstLoad(false)

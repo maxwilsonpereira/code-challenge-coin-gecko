@@ -46,12 +46,11 @@ export async function fetchDataHandler(
     if (usingLocalData) res = await getDataLocal(page.toString(), fetchRetries % 2 === 0 ? 'ethereum' : 'bitcoin')
     else res = await getData(page.toString(), fetchRetries % 2 === 0 ? 'ethereum' : 'bitcoin')
     if (res.status === 200) {
-      setLoading(false)
       if (res.data.tickers.length === 0) {
         fetchAgainOnError = true
         if (fetchRetries < 4) {
           fetchRetries++
-          console.log('Fetch retry ', fetchRetries)
+          console.log('Fetch retry:', fetchRetries)
           if (page > 0) await delayHandler(fetchRetries * 3000)
           fetchDataHandler(
             data,
@@ -80,22 +79,25 @@ export async function fetchDataHandler(
         console.log('Total rows fetched: ', prev + res.data.tickers.length)
         return prev + res.data.tickers.length
       })
-      if (data.length < 550 + localDataCount) setData((prev) => prev.concat(res.data.tickers))
-      else {
+      if (data.length < 550 + localDataCount) {
+        setData((prev) => prev.concat(res.data.tickers))
+        setLoading(false)
+      } else {
         const dataUpdated = data
           .slice(0, localDataCount)
           .concat(data.slice(100 + localDataCount, data.length).concat(res.data.tickers))
-
         setData(dataUpdated)
         window.scrollBy(0, -6200)
+        setLoading(false)
       }
       if (page === 0) setFirstLoad(false)
+      fetchRetries = 0
     }
   } catch {
     if (firstLoad && fetchRetries > 0) setUsingLocalData(true)
     if (fetchRetries < 4) {
       fetchRetries++
-      console.log('Fetch retry ', fetchRetries)
+      console.log('Fetch retry:', fetchRetries)
       if (page > 1) await delayHandler(fetchRetries * 4000)
       fetchDataHandler(
         data,

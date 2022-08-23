@@ -39,10 +39,6 @@ export const ErrorModalComponent = ({
   const fetchLocalDataHandler = () => {
     getDataLocal('1', 'bitcoin')
     setUsingLocalData(true)
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    })
     setLoading(false)
     setShowErrorModal(false)
   }
@@ -54,10 +50,9 @@ export const ErrorModalComponent = ({
           <p>
             API not working at the moment.
             <br />
-            Please wait 30 seconds and try again or use Local Data.
+            Please wait <span className={classes.timerFont}>{timer}</span> seconds and try again or use Local Data.
           </p>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            {timer > 0 && <div className={classes.timer}>{timer}</div>}
             <div className={classes.btnsGrid}>
               <div>
                 <button

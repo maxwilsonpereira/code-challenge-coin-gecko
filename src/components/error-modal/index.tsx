@@ -9,7 +9,7 @@ export const ErrorModalComponent = ({
   setLoading,
 }: {
   fetchData: () => void
-  setShowErrorModal: React.Dispatch<React.SetStateAction<JSX.Element | undefined>>
+  setShowErrorModal: React.Dispatch<React.SetStateAction<boolean>>
   setUsingLocalData: React.Dispatch<React.SetStateAction<boolean>>
   setLoading: React.Dispatch<React.SetStateAction<boolean | undefined>>
 }) => {
@@ -31,6 +31,11 @@ export const ErrorModalComponent = ({
     }, 1000)
   }
 
+  const tryAgainHandler = async () => {
+    setShowErrorModal(false)
+    fetchData()
+  }
+
   const fetchLocalDataHandler = () => {
     getDataLocal('1', 'bitcoin')
     setUsingLocalData(true)
@@ -39,7 +44,7 @@ export const ErrorModalComponent = ({
       behavior: 'smooth',
     })
     setLoading(false)
-    setShowErrorModal(undefined)
+    setShowErrorModal(false)
   }
 
   return (
@@ -56,10 +61,7 @@ export const ErrorModalComponent = ({
             <div className={classes.btnsGrid}>
               <div>
                 <button
-                  onClick={() => {
-                    fetchData()
-                    setShowErrorModal(undefined)
-                  }}
+                  onClick={tryAgainHandler}
                   className={[
                     classes.buttonBasic,
                     classes.btnRed,

@@ -3,25 +3,18 @@ import useIntersectionObserver from '../../utils/use-intersection-observer'
 
 const OnScrollTrigger = ({
   positionY,
-  element,
   setPage,
-  setHideTableHeaderFix,
 }: {
   positionY: number
-  element?: string
-  setPage?: React.Dispatch<React.SetStateAction<number>>
-  setHideTableHeaderFix?: React.Dispatch<React.SetStateAction<boolean | undefined>>
+  setPage: React.Dispatch<React.SetStateAction<number>>
 }) => {
   const ref = useRef<HTMLDivElement | null>(null)
   const entry = useIntersectionObserver(ref, {})
   const isVisible = entry?.isIntersecting
 
   useEffect(() => {
-    if (isVisible && setPage) setPage((prev) => prev + 1)
-    if (setHideTableHeaderFix) setHideTableHeaderFix(isVisible)
+    if (isVisible) setPage((prev) => prev + 1)
   }, [isVisible])
-
-  if (element && element === 'div') return <div style={{ transform: `translateY(${positionY}px)` }} ref={ref} />
 
   return <span style={{ transform: `translateY(${positionY}px)` }} ref={ref} />
 }

@@ -21,6 +21,7 @@ export const VirtualizedList = () => {
   const [loading, setLoading] = useState<boolean>()
   const [firstLoad, setFirstLoad] = useState<boolean>(true)
   const [showErrorModal, setShowErrorModal] = useState<boolean>(false)
+  const [scrollToElement, setScrollToElement] = useState(false)
   const [usingLocalData, setUsingLocalData] = useState<boolean>(false)
 
   useEffect(() => {
@@ -32,25 +33,27 @@ export const VirtualizedList = () => {
   }, [page])
 
   useLayoutEffect(() => {
-    if (data.length > 550) window.scrollBy(0, -7200)
+    if (scrollToElement) {
+      window.scrollBy(0, -7200)
+      setLoading(false)
+    }
   }, [data])
 
   const fetchData = async () => {
-    fetchDataHandler(
+    fetchDataHandler({
       data,
       setData,
       localDataCount,
       page,
-      totalRowsFetched,
       setTotalRowsFetched,
       setLoading,
       firstLoad,
       setFirstLoad,
-      showErrorModal,
       setShowErrorModal,
+      setScrollToElement,
       usingLocalData,
-      setUsingLocalData
-    )
+      setUsingLocalData,
+    })
   }
 
   if (firstLoad)

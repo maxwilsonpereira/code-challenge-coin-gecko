@@ -1,4 +1,5 @@
 import { ICoinTicker } from '../../interfaces/coingecko'
+import { IFetchDataHandlerProps } from '../../interfaces/data-interfaces'
 import { getDataLocal, getData } from '../../services/coinGecko/coingecko'
 import { delayHandler } from '../../utils/delay-handler'
 import { isICoinTicker } from '../../utils/interfaces-check'
@@ -26,24 +27,23 @@ export function localStorageHandler(
 
 let fetchRetries = 0
 
-export async function fetchDataHandler(
-  data: ICoinTicker[],
-  setData: React.Dispatch<React.SetStateAction<ICoinTicker[]>>,
-  localDataCount: number,
-  page: number,
-  totalRowsFetched: number,
-  setTotalRowsFetched: React.Dispatch<React.SetStateAction<number>>,
-  setLoading: React.Dispatch<React.SetStateAction<boolean | undefined>>,
-  firstLoad: boolean,
-  setFirstLoad: React.Dispatch<React.SetStateAction<boolean>>,
-  showErrorModal: boolean,
-  setShowErrorModal: React.Dispatch<React.SetStateAction<boolean>>,
-  usingLocalData: boolean,
-  setUsingLocalData: React.Dispatch<React.SetStateAction<boolean>>
-) {
+export async function fetchDataHandler({ ...props }: IFetchDataHandlerProps) {
+  const {
+    data,
+    setData,
+    localDataCount,
+    page,
+    setTotalRowsFetched,
+    setLoading,
+    firstLoad,
+    setFirstLoad,
+    setShowErrorModal,
+    setScrollToElement,
+    usingLocalData,
+    setUsingLocalData,
+  } = props
   setLoading(true)
   let fetchAgainOnError = false
-
   try {
     let res: any
     if (usingLocalData) res = await getDataLocal(page.toString(), fetchRetries % 2 === 0 ? 'ethereum' : 'bitcoin')
@@ -55,21 +55,7 @@ export async function fetchDataHandler(
           fetchRetries++
           console.log('Fetch retry:', fetchRetries)
           if (page > 0) await delayHandler(fetchRetries * 3000)
-          fetchDataHandler(
-            data,
-            setData,
-            localDataCount,
-            page,
-            totalRowsFetched,
-            setTotalRowsFetched,
-            setLoading,
-            firstLoad,
-            setFirstLoad,
-            showErrorModal,
-            setShowErrorModal,
-            usingLocalData,
-            setUsingLocalData
-          )
+          fetchDataHandler({ ...props })
         } else {
           const error = { code: 403, message: 'myMessage' }
           throw error
@@ -82,15 +68,14 @@ export async function fetchDataHandler(
         console.log('Total rows fetched: ', prev + res.data.tickers.length)
         return prev + res.data.tickers.length
       })
-      if (data.length < 550 + localDataCount) {
+      if (data.length <= 550 + localDataCount) {
         setData((prev) => prev.concat(res.data.tickers))
         setLoading(false)
       } else {
-        const dataUpdated = data
-          .slice(0, localDataCount)
-          .concat(data.slice(100 + localDataCount, data.length).concat(res.data.tickers))
-        setData(dataUpdated)
-        setLoading(false)
+        setScrollToElement(true)
+        setData(
+          data.slice(0, localDataCount).concat(data.slice(100 + localDataCount, data.length).concat(res.data.tickers))
+        )
       }
       if (page === 0) setFirstLoad(false)
       fetchRetries = 0
@@ -101,21 +86,7 @@ export async function fetchDataHandler(
       fetchRetries++
       console.log('Fetch retry:', fetchRetries)
       if (page > 1) await delayHandler(fetchRetries * 4000)
-      fetchDataHandler(
-        data,
-        setData,
-        localDataCount,
-        page,
-        totalRowsFetched,
-        setTotalRowsFetched,
-        setLoading,
-        firstLoad,
-        setFirstLoad,
-        showErrorModal,
-        setShowErrorModal,
-        usingLocalData,
-        setUsingLocalData
-      )
+      fetchDataHandler({ ...props })
     } else {
       fetchRetries = 0
       setShowErrorModal(true)

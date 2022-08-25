@@ -1,4 +1,4 @@
-import { render, queryByAttribute, fireEvent, screen } from '@testing-library/react'
+import { render, queryByAttribute, fireEvent } from '@testing-library/react'
 import { ICoinTicker } from '../../interfaces/coingecko'
 import { AddRowModalComponent } from './index'
 

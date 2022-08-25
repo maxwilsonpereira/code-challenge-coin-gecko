@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 import classes from './styles.module.scss'
 import classesList from '../table-header/styles.module.scss'
 import LoadingComponent from '../loading-component'
@@ -30,6 +30,10 @@ export const VirtualizedList = () => {
   useEffect(() => {
     fetchData()
   }, [page])
+
+  useLayoutEffect(() => {
+    if (data.length > 550) window.scrollBy(0, -7200)
+  }, [data])
 
   const fetchData = async () => {
     fetchDataHandler(

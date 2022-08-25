@@ -90,7 +90,6 @@ export async function fetchDataHandler(
           .slice(0, localDataCount)
           .concat(data.slice(100 + localDataCount, data.length).concat(res.data.tickers))
         setData(dataUpdated)
-        window.scrollBy(0, -7200)
         setLoading(false)
       }
       if (page === 0) setFirstLoad(false)

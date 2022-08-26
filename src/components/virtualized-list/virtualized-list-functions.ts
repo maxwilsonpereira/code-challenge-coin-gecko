@@ -26,7 +26,6 @@ export function localStorageHandler(
 }
 
 let fetchRetries = 0
-let totalRowsFetched = 0
 
 export async function fetchDataHandler({ ...props }: IFetchDataHandlerProps) {
   const {
@@ -41,6 +40,7 @@ export async function fetchDataHandler({ ...props }: IFetchDataHandlerProps) {
     setScrollToElement,
     usingLocalData,
     setUsingLocalData,
+    setTotalRowsFetched,
   } = props
   setLoading(true)
   let fetchAgainOnError = false
@@ -63,8 +63,10 @@ export async function fetchDataHandler({ ...props }: IFetchDataHandlerProps) {
 
       if (fetchAgainOnError) return
 
-      totalRowsFetched = totalRowsFetched + res.data.tickers.length
-      console.log('Total rows fetched: ', totalRowsFetched)
+      setTotalRowsFetched((prev) => {
+        console.log('Total rows fetched: ', prev + res.data.tickers.length)
+        return prev + res.data.tickers.length
+      })
 
       if (data.length <= 550 + localDataCount) {
         setData((prev) => prev.concat(res.data.tickers))

@@ -22,6 +22,7 @@ export const VirtualizedList = () => {
   const [showErrorModal, setShowErrorModal] = useState<boolean>(false)
   const [scrollToElement, setScrollToElement] = useState(false)
   const [usingLocalData, setUsingLocalData] = useState<boolean>(false)
+  const [totalRowsFetched, setTotalRowsFetched] = useState(0)
 
   useEffect(() => {
     localStorageHandler(setLocalDataCount, setData)
@@ -55,6 +56,7 @@ export const VirtualizedList = () => {
       setScrollToElement,
       usingLocalData,
       setUsingLocalData,
+      setTotalRowsFetched,
     })
   }
 
@@ -108,7 +110,10 @@ export const VirtualizedList = () => {
             <TableRow key={i} {...cur} index={i} />
           ))}
           <BackToTopIcon />
-          <OnScrollTrigger positionY={-6000} setPage={setPage} />
+
+          {!loading && totalRowsFetched < 550 && !showErrorModal && (
+            <OnScrollTrigger positionY={-3000} setPage={setPage} />
+          )}
           {!loading && !showErrorModal && <OnScrollTrigger positionY={0} setPage={setPage} />}
         </div>
       </div>

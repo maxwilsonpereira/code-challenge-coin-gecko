@@ -12,4 +12,5 @@ export interface IFetchDataHandlerProps {
   setScrollToElement: React.Dispatch<React.SetStateAction<boolean>>
   usingLocalData: boolean
   setUsingLocalData: React.Dispatch<React.SetStateAction<boolean>>
+  setTotalRowsFetched: React.Dispatch<React.SetStateAction<number>>
 }

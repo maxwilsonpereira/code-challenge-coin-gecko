@@ -46,8 +46,8 @@ export async function fetchDataHandler({ ...props }: IFetchDataHandlerProps) {
   let fetchAgainOnError = false
   try {
     let res: any
-    if (usingLocalData) res = await getDataLocal(page % 2 === 0 ? 'ethereum' : 'bitcoin')
-    else res = await getData(page.toString(), fetchRetries % 2 === 0 ? 'ethereum' : 'bitcoin')
+    if (usingLocalData) res = await getDataLocal(page, page % 2 === 0 ? 'ethereum' : 'bitcoin')
+    else res = await getData(page, fetchRetries % 2 === 0 ? 'ethereum' : 'bitcoin')
     if (res.status === 200) {
       if (res.data.tickers.length === 0) {
         fetchAgainOnError = true

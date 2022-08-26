@@ -26,6 +26,7 @@ export function localStorageHandler(
 }
 
 let fetchRetries = 0
+let totalRowsFetched = 0
 
 export async function fetchDataHandler({ ...props }: IFetchDataHandlerProps) {
   const {
@@ -33,7 +34,6 @@ export async function fetchDataHandler({ ...props }: IFetchDataHandlerProps) {
     setData,
     localDataCount,
     page,
-    setTotalRowsFetched,
     setLoading,
     firstLoad,
     setFirstLoad,
@@ -46,7 +46,7 @@ export async function fetchDataHandler({ ...props }: IFetchDataHandlerProps) {
   let fetchAgainOnError = false
   try {
     let res: any
-    if (usingLocalData) res = await getDataLocal(page.toString(), fetchRetries % 2 === 0 ? 'ethereum' : 'bitcoin')
+    if (usingLocalData) res = await getDataLocal(page % 2 === 0 ? 'ethereum' : 'bitcoin')
     else res = await getData(page.toString(), fetchRetries % 2 === 0 ? 'ethereum' : 'bitcoin')
     if (res.status === 200) {
       if (res.data.tickers.length === 0) {
@@ -57,17 +57,15 @@ export async function fetchDataHandler({ ...props }: IFetchDataHandlerProps) {
           if (page > 0) await delayHandler(fetchRetries * 3000)
           fetchDataHandler({ ...props })
         } else {
-          const error = { code: 403, message: 'myMessage' }
-          throw error
+          throw { code: 403, message: 'myMessage' }
         }
       }
 
       if (fetchAgainOnError) return
 
-      setTotalRowsFetched((prev) => {
-        console.log('Total rows fetched: ', prev + res.data.tickers.length)
-        return prev + res.data.tickers.length
-      })
+      totalRowsFetched = totalRowsFetched + res.data.tickers.length
+      console.log('Total rows fetched: ', totalRowsFetched)
+
       if (data.length <= 550 + localDataCount) {
         setData((prev) => prev.concat(res.data.tickers))
         setLoading(false)

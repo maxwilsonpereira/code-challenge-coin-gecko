@@ -17,7 +17,6 @@ export const VirtualizedList = () => {
   const [data, setData] = useState<ICoinTicker[]>([])
   const [localDataCount, setLocalDataCount] = useState(0)
   const [page, setPage] = useState(0)
-  const [totalRowsFetched, setTotalRowsFetched] = useState(0)
   const [loading, setLoading] = useState<boolean>()
   const [firstLoad, setFirstLoad] = useState<boolean>(true)
   const [showErrorModal, setShowErrorModal] = useState<boolean>(false)
@@ -29,8 +28,12 @@ export const VirtualizedList = () => {
   }, [])
 
   useEffect(() => {
-    fetchData()
+    if (page > 0) fetchData()
   }, [page])
+
+  useEffect(() => {
+    if (usingLocalData) fetchData()
+  }, [usingLocalData])
 
   useLayoutEffect(() => {
     if (scrollToElement) {
@@ -45,7 +48,6 @@ export const VirtualizedList = () => {
       setData,
       localDataCount,
       page,
-      setTotalRowsFetched,
       setLoading,
       firstLoad,
       setFirstLoad,
@@ -59,16 +61,14 @@ export const VirtualizedList = () => {
   if (firstLoad)
     return (
       <>
+        <IntroPage setFirstLoad={setFirstLoad} fetchData={fetchData} />
         {showErrorModal && (
           <ErrorModalComponent
             fetchData={fetchData}
             setShowErrorModal={setShowErrorModal}
             setUsingLocalData={setUsingLocalData}
-            setLoading={setLoading}
           />
         )}
-        <IntroPage />
-        <LoadingComponent fade={true} />
       </>
     )
 
@@ -79,7 +79,6 @@ export const VirtualizedList = () => {
           fetchData={fetchData}
           setShowErrorModal={setShowErrorModal}
           setUsingLocalData={setUsingLocalData}
-          setLoading={setLoading}
         />
       )}
       <div className={classes.contentWrapper}>
@@ -109,10 +108,7 @@ export const VirtualizedList = () => {
             <TableRow key={i} {...cur} index={i} />
           ))}
           <BackToTopIcon />
-          {!loading && totalRowsFetched < 550 && !showErrorModal && (
-            <OnScrollTrigger positionY={-3000} setPage={setPage} />
-          )}
-
+          <OnScrollTrigger positionY={-6000} setPage={setPage} />
           {!loading && !showErrorModal && <OnScrollTrigger positionY={0} setPage={setPage} />}
         </div>
       </div>

@@ -6,19 +6,18 @@ import { mockResponseBitcoin, mockResponseEthereum } from './mockResponse'
 const url = 'https://api.coingecko.com/api/v3/coins'
 
 export async function getData(page: string, coinId: string) {
-  if (parseInt(page) === 0) await delayHandler(5000)
+  if (parseInt(page) === 0) await delayHandler(1500)
   const res = await axios.get(`${url}/${coinId}/tickers`, { params: { include_exchange_logo: 'true', page: page } })
   res.data.tickers.forEach((cur: any) => {
     if (!isICoinTicker(cur)) {
-      const error = { code: 403, message: 'myMessage' }
-      throw error
+      throw { code: 403, message: 'myMessage' }
     }
   })
   return res
 }
 
-export async function getDataLocal(page: string, coinId: string) {
-  await delayHandler(parseInt(page) === 0 ? 5000 : 500)
+export async function getDataLocal(coinId: string) {
+  console.log('getDataLocal')
   if (coinId === 'bitcoin') return mockResponseBitcoin
   else return mockResponseEthereum
 }

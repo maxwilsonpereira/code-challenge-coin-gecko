@@ -1,17 +1,14 @@
 import { useEffect, useState } from 'react'
-import { getDataLocal } from '../../services/coinGecko/coingecko'
 import classes from './styles.module.scss'
 
 export const ErrorModalComponent = ({
   fetchData,
   setShowErrorModal,
   setUsingLocalData,
-  setLoading,
 }: {
-  fetchData: () => void
+  fetchData: () => Promise<void>
   setShowErrorModal: React.Dispatch<React.SetStateAction<boolean>>
   setUsingLocalData: React.Dispatch<React.SetStateAction<boolean>>
-  setLoading: React.Dispatch<React.SetStateAction<boolean | undefined>>
 }) => {
   const [timer, setTimer] = useState(30)
 
@@ -37,9 +34,7 @@ export const ErrorModalComponent = ({
   }
 
   const fetchLocalDataHandler = () => {
-    getDataLocal('1', 'bitcoin')
     setUsingLocalData(true)
-    setLoading(false)
     setShowErrorModal(false)
   }
 

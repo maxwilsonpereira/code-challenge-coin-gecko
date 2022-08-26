@@ -5,7 +5,6 @@ export interface IFetchDataHandlerProps {
   setData: React.Dispatch<React.SetStateAction<ICoinTicker[]>>
   localDataCount: number
   page: number
-  setTotalRowsFetched: React.Dispatch<React.SetStateAction<number>>
   setLoading: React.Dispatch<React.SetStateAction<boolean | undefined>>
   firstLoad: boolean
   setFirstLoad: React.Dispatch<React.SetStateAction<boolean>>

@@ -21,23 +21,32 @@
 .title {
   font-size: 2.2em;
   color: $colorPrimary;
-  margin-bottom: 80px;
+  margin-bottom: 60px;
   @media (max-height: 800px) {
     font-size: 1.8em;
     margin-bottom: 40px;
   }
 }
 .description {
-  font-size: 1.5em;
+  font-size: 1.3em;
+  margin: 10px;
   @media (max-height: 800px) {
     font-size: 1em;
   }
 }
 .introImage {
   width: 80%;
-  max-width: 600px;
+  max-width: 500px;
   margin: 0 auto;
   @media (max-height: 800px) {
     width: 80%;
   }
+}
+.buttonBasic {
+  @include buttonBasic();
+  float: none;
+  margin-top: 20px;
+}
+.buttonDisabled {
+  @include buttonDisabled();
 }

@@ -39,13 +39,13 @@
   max-width: 500px;
   margin: 0 auto;
   @media (max-height: 800px) {
-    width: 80%;
+    width: 90%;
   }
 }
 .buttonBasic {
   @include buttonBasic();
   float: none;
-  margin-top: 20px;
+  margin-top: 50px;
 }
 .buttonDisabled {
   @include buttonDisabled();

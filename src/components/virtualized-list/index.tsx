@@ -25,6 +25,10 @@ export const VirtualizedList = () => {
   const [totalRowsFetched, setTotalRowsFetched] = useState(0)
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    })
     localStorageHandler(setLocalDataCount, setData)
   }, [])
 
